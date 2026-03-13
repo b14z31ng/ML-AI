@@ -1,0 +1,6 @@
+# Add your Python dependencies here, one per line
+pandas
+numpy
+seaborn
+
+-e .
