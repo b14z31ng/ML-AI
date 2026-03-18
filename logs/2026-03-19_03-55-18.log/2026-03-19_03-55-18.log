@@ -1,0 +1,8 @@
+[2026-03-19 03:55:37,810] 23 root - INFO - Entered the data ingestion method or componenet
+[2026-03-19 03:55:37,813] 27 root - INFO - Read the dataset and dataframe
+[2026-03-19 03:55:37,824] 34 root - INFO - Train test split init
+[2026-03-19 03:55:37,829] 42 root - INFO - Ingestion of the data is completed
+[2026-03-19 03:55:37,851] 74 root - INFO - Read train and test data completed
+[2026-03-19 03:55:37,851] 76 root - INFO - Obtaining preprocessing object
+[2026-03-19 03:55:37,851] 54 root - INFO - Categorical columns scaled: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
+[2026-03-19 03:55:37,851] 55 root - INFO - Numerical columns encoded: ['writing_score', 'reading_score']
