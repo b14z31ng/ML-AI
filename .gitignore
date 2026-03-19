@@ -130,5 +130,9 @@ dmypy.json
 .pyre/
 artifacts/
 logs/
+ml-env/
+logs/
+project_ml.egg-info/
+artifacts/
 ARCHITECTURE.md
 BEGINNER_GUIDE.md
