@@ -1,137 +1,47 @@
 # 🎓 Student Exam Performance Predictor
 
-A production-ready full-stack ML application that predicts student math scores based on demographic and academic factors.
+## Project Description
 
-| Layer | Tech |
-|-------|------|
-| **Backend** | FastAPI · Python 3.11 · Pydantic |
-| **Frontend** | React 19 · Vite · Material UI |
-| **ML Pipeline** | scikit-learn · CatBoost · XGBoost |
-| **Deployment** | Render (Blueprint) · Docker |
+This is an **End-to-End Machine Learning System** designed to predict student math scores based on a variety of demographic and academic factors. Initially starting as a standalone machine learning pipeline, it has been fully upgraded into a production-ready application featuring a robust REST API and a premium web interface.
 
----
+## New Features
 
-## 📂 Project Structure
+* **FastAPI Backend**: A lightning-fast, asynchronous Python backend for serving model predictions.
+* **React Frontend**: A modern, interactive user interface built with Vite and Material UI.
+* **API-Based Prediction**: The ML model is decoupled from the UI, operating strictly via a JSON REST API.
+* **UI Interaction**: Users can dynamically input student statistics through a premium glassmorphism form and receive real-time, animated prediction scores.
 
-```
+## Updated Project Structure
+
+```text
 project-root/
-├── backend/
-│   ├── main.py              ← FastAPI app
+├── backend/                  ← FastAPI application
+│   ├── main.py               ← API routes and server config
 │   ├── requirements.txt
-│   ├── Dockerfile
-│   ├── src/                  ← ML pipeline (untouched)
-│   └── artifacts/            ← model.pkl, preprocessor.pkl
-├── frontend/
-│   ├── src/App.jsx           ← React UI
-│   ├── index.html
-│   ├── vite.config.js
+│   ├── src/                  ← Modular ML Pipeline (ingestion, transformation, training)
+│   └── artifacts/            ← Trained ML models (model.pkl, preprocessor.pkl)
+├── frontend/                 ← React application
+│   ├── src/App.jsx           ← Main React interface
+│   ├── index.css             ← Global styling
 │   ├── package.json
-│   ├── .env
-│   └── Dockerfile
-├── render.yaml               ← Render Blueprint
-├── docker-compose.yml
+│   └── vite.config.js
+├── render.yaml               ← Render Blueprint for cloud deployment
 └── README.md
 ```
 
----
+## How It Works
 
-## 🚀 Quick Start (Local Development)
+1. **User Interaction**: The user fills out a dynamic form on the **React UI**.
+2. **API Request**: The React app sends a JSON payload to the **FastAPI Backend** via a `POST` request.
+3. **Data Processing**: FastAPI passes the raw JSON data to the **ML Pipeline**'s `CustomData` class, which converts it into a structured DataFrame.
+4. **Prediction**: The `PredictPipeline` loads the saved `preprocessor.pkl` to transform the data, then uses the `model.pkl` to generate a prediction.
+5. **Response**: FastAPI returns the predicted score as JSON back to the **React UI**, which displays it with visual flair to the user.
 
-### Backend
-
-```bash
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-API is now live at `http://localhost:8000` — Swagger docs at `http://localhost:8000/docs`.
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-React app at `http://localhost:5173`.
-
-### Test Prediction
-
-```bash
-curl -X POST http://localhost:8000/predict \
-  -H "Content-Type: application/json" \
-  -d '{
-    "gender": "male",
-    "race_ethnicity": "group B",
-    "parental_level_of_education": "bachelor'\''s degree",
-    "lunch": "standard",
-    "test_preparation_course": "none",
-    "reading_score": 72,
-    "writing_score": 68
-  }'
-```
-
----
-
-## 🐳 Docker
-
-```bash
-docker-compose up --build
-```
-
-- Backend: `http://localhost:8000`
-- Frontend: `http://localhost:3000`
-
----
-
-## 🌐 Deploy to Render
-
-### Option 1: Blueprint (Recommended)
-
-1. Push this repo to GitHub
-2. Go to [Render Dashboard](https://dashboard.render.com/)
-3. Click **New** → **Blueprint**
-4. Connect your repo — Render reads `render.yaml` and creates both services automatically
-
-### Option 2: Manual Setup
-
-#### Backend Service
-
-| Setting | Value |
-|---------|-------|
-| Type | Web Service |
-| Runtime | Python |
-| Root Directory | `backend` |
-| Build Command | `pip install -r requirements.txt` |
-| Start Command | `uvicorn main:app --host 0.0.0.0 --port 10000` |
-
-#### Frontend Service
-
-| Setting | Value |
-|---------|-------|
-| Type | Static Site |
-| Root Directory | `frontend` |
-| Build Command | `npm install && npm run build` |
-| Publish Directory | `dist` |
-
-### ⚠️ Important: Update Frontend API URL
-
-After deploying the backend, copy its URL and set it in the frontend:
-
-1. In Render Dashboard → Frontend service → **Environment**
-2. Add: `VITE_API_URL=https://your-backend-name.onrender.com`
-3. Trigger a re-deploy
-
----
-
-## 🔌 API Reference
+## API Usage
 
 ### `POST /predict`
 
-**Request Body:**
-
+**Input Format (JSON):**
 ```json
 {
   "gender": "male",
@@ -144,30 +54,29 @@ After deploying the backend, copy its URL and set it in the frontend:
 }
 ```
 
-**Response:**
-
+**Example Response:**
 ```json
 {
   "prediction": 73.5
 }
 ```
 
-### `GET /health`
+## Running the Project
 
-```json
-{
-  "status": "healthy"
-}
+### Backend
+Make sure you are in the virtual environment (`ml-env`) where your ML libraries are installed.
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
 ```
+Swagger UI documentation will be available at `http://localhost:8000/docs`.
 
----
-
-## 📝 Environment Variables
-
-### Frontend (`.env`)
-
-```env
-VITE_API_URL=http://localhost:8000
+### Frontend
+In a new terminal:
+```bash
+cd frontend
+npm install
+npm run dev
 ```
-
-For Render production, set this to your backend's Render URL.
+The React app will be live at `http://localhost:5173`. Make sure the backend is running so it can fetch predictions!
