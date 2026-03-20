@@ -136,3 +136,9 @@ project_ml.egg-info/
 artifacts/
 ARCHITECTURE.md
 BEGINNER_GUIDE.md
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+.DS_Store
